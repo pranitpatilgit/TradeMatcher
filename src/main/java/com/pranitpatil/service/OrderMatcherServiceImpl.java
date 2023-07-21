@@ -2,15 +2,17 @@ package com.pranitpatil.service;
 
 import com.pranitpatil.dto.Order;
 import com.pranitpatil.dto.OrderType;
+import com.pranitpatil.dto.Trade;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
 
 @Slf4j
-public class OrderMatcherServiceImpl implements OrderMatcherService{
+public class OrderMatcherServiceImpl implements OrderMatcherService {
 
     private OrderBookService orderBookService = OrderBookStorageService.getInstance();
-    
+    private TradeBookService tradeBookService = TradeBookStorageService.getInstance();
+
     private static final OrderMatcherServiceImpl INSTANCE = new OrderMatcherServiceImpl();
 
     public static OrderMatcherServiceImpl getINSTANCE() {
@@ -22,64 +24,84 @@ public class OrderMatcherServiceImpl implements OrderMatcherService{
 
     @Override
     public void matchOrder(Order order) {
-        checkBuyOrder(order);
-        checkSellOrder(order);
+        boolean isTradeExecuted = false;
         
-        //TODO : Recursively check for remaining orders
-    }
-
-    private void checkSellOrder(Order order) {
-        if(OrderType.SELL.equals(order.orderType())){
-            Optional<Order> buyOrder = orderBookService.peekBuyOrder();
-
-            if(buyOrder.isPresent() && order.price() <= buyOrder.get().price()){
-                log.debug("Executing BUY Order - {} and SELL Order - {}",
-                        buyOrder.get().orderId(),
-                        order.orderId());
-
-                executeTrade(buyOrder.get(), order);
-            }
+        if (OrderType.BUY.equals(order.orderType())) {
+            isTradeExecuted = checkBuyOrder(order);
         }
-    }
+        else if (OrderType.SELL.equals(order.orderType())) {
+            isTradeExecuted = checkSellOrder(order);
+        }
 
-    private void checkBuyOrder(Order order) {
-        if(OrderType.BUY.equals(order.orderType())){
-            Optional<Order> sellOrder = orderBookService.peekSellOrder();
+        //Check for remaining orders until nothing matches
+        while (isTradeExecuted){
+            isTradeExecuted = false;
             
-            if(sellOrder.isPresent() && order.price() >= sellOrder.get().price()){
-                log.debug("Executing BUY Order - {} and SELL Order - {}", 
-                        order.orderId(), 
-                        sellOrder.get().orderId());
-                
-                executeTrade(order, sellOrder.get());
+            if (orderBookService.peekBuyOrder().isPresent()){
+                isTradeExecuted = checkBuyOrder(orderBookService.peekBuyOrder().get());
+            }
+            else if (orderBookService.peekSellOrder().isPresent()){
+                isTradeExecuted = checkSellOrder(orderBookService.peekSellOrder().get());
             }
         }
+    }
+
+    private boolean checkSellOrder(Order order) {
+
+        Optional<Order> buyOrder = orderBookService.peekBuyOrder();
+
+        if (buyOrder.isPresent() && order.price() <= buyOrder.get().price()) {
+            log.debug("Executing BUY Order - {} and SELL Order - {}",
+                    buyOrder.get().orderId(),
+                    order.orderId());
+
+            executeTrade(buyOrder.get(), order);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkBuyOrder(Order order) {
+
+        Optional<Order> sellOrder = orderBookService.peekSellOrder();
+
+        if (sellOrder.isPresent() && order.price() >= sellOrder.get().price()) {
+            log.debug("Executing BUY Order - {} and SELL Order - {}",
+                    order.orderId(),
+                    sellOrder.get().orderId());
+
+            executeTrade(order, sellOrder.get());
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void executeTrade(Order buyOrder, Order sellOrder) {
         int quantity = Math.min(buyOrder.quantity(), sellOrder.quantity());
 
-        if (buyOrder.quantity() > quantity){
+        if (buyOrder.quantity() > quantity) {
             Order modifiedBuyOrder = new Order(buyOrder.orderId(),
                     buyOrder.orderType(),
                     buyOrder.price(),
-                    buyOrder.quantity() - quantity);
+                    buyOrder.quantity() - quantity, buyOrder.createdAt());
             orderBookService.modifyFirstBuyOrder(modifiedBuyOrder);
-        }
-        else {
+        } else {
             orderBookService.removeBuyOrder();
         }
 
-        if (sellOrder.quantity() > quantity){
+        if (sellOrder.quantity() > quantity) {
             Order modifiedSellOrder = new Order(sellOrder.orderId(),
                     sellOrder.orderType(),
                     sellOrder.price(),
-                    sellOrder.quantity() - quantity);
+                    sellOrder.quantity() - quantity,
+                    sellOrder.createdAt());
             orderBookService.modifyFirstSellOrder(modifiedSellOrder);
-        }
-        else {
+        } else {
             orderBookService.removeSellOrder();
         }
+
+        Trade trade = new Trade(buyOrder.orderId(), sellOrder.orderId(), sellOrder.price(), quantity);
+        tradeBookService.executeTrade(trade);
     }
 }

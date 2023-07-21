@@ -1,4 +1,6 @@
 package com.pranitpatil.dto;
 
-public record Order(String orderId, OrderType orderType, int price, int quantity) {
+import java.time.LocalDateTime;
+
+public record Order(String orderId, OrderType orderType, int price, int quantity, LocalDateTime createdAt) {
 }
