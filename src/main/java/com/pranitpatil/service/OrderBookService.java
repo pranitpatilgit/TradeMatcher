@@ -26,4 +26,10 @@ public interface OrderBookService {
     Order modifyFirstBuyOrder(Order order);
     
     Order modifyFirstSellOrder(Order order);
+
+    /**
+     * Resets the order book.
+     * Used for tests.
+     */
+    void resetOrderBook();
 }

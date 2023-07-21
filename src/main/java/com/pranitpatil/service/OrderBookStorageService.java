@@ -70,4 +70,10 @@ public class OrderBookStorageService implements OrderBookService {
         orderBook.getSellQueue().add(order);
         return order;
     }
+
+    @Override
+    public void resetOrderBook() {
+        orderBook.getBuyQueue().clear();
+        orderBook.getSellQueue().clear();
+    }
 }

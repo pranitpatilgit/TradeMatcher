@@ -64,7 +64,7 @@ public class OrderMatcherServiceImpl implements OrderMatcherService{
             Order modifiedBuyOrder = new Order(buyOrder.orderId(),
                     buyOrder.orderType(),
                     buyOrder.price(),
-                    quantity - buyOrder.quantity());
+                    buyOrder.quantity() - quantity);
             orderBookService.modifyFirstBuyOrder(modifiedBuyOrder);
         }
         else {
@@ -75,7 +75,7 @@ public class OrderMatcherServiceImpl implements OrderMatcherService{
             Order modifiedSellOrder = new Order(sellOrder.orderId(),
                     sellOrder.orderType(),
                     sellOrder.price(),
-                    quantity - sellOrder.quantity());
+                    sellOrder.quantity() - quantity);
             orderBookService.modifyFirstSellOrder(modifiedSellOrder);
         }
         else {
