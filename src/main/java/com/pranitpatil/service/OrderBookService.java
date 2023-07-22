@@ -32,4 +32,10 @@ public interface OrderBookService {
      * Used for tests.
      */
     void resetOrderBook();
+
+    /**
+     * Returns the string representation of order book.
+     * @return
+     */
+    String printOrderBook();
 }

@@ -2,6 +2,7 @@ package com.pranitpatil.service;
 
 import com.pranitpatil.dto.Order;
 import com.pranitpatil.storage.OrderBook;
+import com.pranitpatil.util.NumberFormatter;
 
 import java.util.Optional;
 
@@ -9,6 +10,10 @@ public class OrderBookStorageService implements OrderBookService {
     
     private OrderBook orderBook;
     private static final OrderBookStorageService INSTANCE = new OrderBookStorageService();
+    private static final String PRINT_SEPARATOR = " ";
+    private static final String PRINT_PADDING = "                  ";
+    private static final String PRINT_DIVIDER = " | ";
+    
     private OrderBookStorageService() {
         this.orderBook = new OrderBook();
     }
@@ -75,5 +80,38 @@ public class OrderBookStorageService implements OrderBookService {
     public void resetOrderBook() {
         orderBook.getBuyQueue().clear();
         orderBook.getSellQueue().clear();
+    }
+    
+    @Override
+    public String printOrderBook() {
+        StringBuilder builder = new StringBuilder();
+        
+        while (!orderBook.getBuyQueue().isEmpty() || !orderBook.getSellQueue().isEmpty()){
+            if (orderBook.getBuyQueue().isEmpty()){
+                builder.append(PRINT_PADDING);
+            }
+            else {
+                Order order = removeBuyOrder().get();
+                builder.append(NumberFormatter.formatAmountToString(order.price()));
+                builder.append(PRINT_SEPARATOR);
+                builder.append(NumberFormatter.addPaddingToNumber(order.quantity()));
+            }
+
+            builder.append(PRINT_DIVIDER);
+
+            if (orderBook.getSellQueue().isEmpty()){
+                builder.append(PRINT_PADDING);
+            }
+            else {
+                Order order = removeSellOrder().get();
+                builder.append(NumberFormatter.formatAmountToString(order.price()));
+                builder.append(PRINT_SEPARATOR);
+                builder.append(NumberFormatter.addPaddingToNumber(order.quantity()));
+            }
+
+            builder.append("\n");
+        }
+        
+        return builder.toString();
     }
 }
