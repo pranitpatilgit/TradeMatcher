@@ -4,6 +4,7 @@ import com.pranitpatil.dto.Order;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Responsible for handling Input and output
@@ -17,6 +18,8 @@ public interface IOService {
      * @return
      */
     List<Order> getOrderInput(InputStream inputStream);
+    
+    Optional<Order> readOrder();
     
     void getOrderBookOutput();
 }

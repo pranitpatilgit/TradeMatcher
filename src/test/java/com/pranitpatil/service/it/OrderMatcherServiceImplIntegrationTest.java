@@ -22,7 +22,7 @@ public class OrderMatcherServiceImplIntegrationTest {
 
     @BeforeAll
     void init() {
-        orderMatcherService = OrderMatcherServiceImpl.getINSTANCE();
+        orderMatcherService = OrderMatcherServiceImpl.getInstance();
         orderBookStorageService = OrderBookStorageService.getInstance();
     }
     

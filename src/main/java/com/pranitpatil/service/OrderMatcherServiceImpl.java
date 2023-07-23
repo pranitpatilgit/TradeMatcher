@@ -15,7 +15,7 @@ public class OrderMatcherServiceImpl implements OrderMatcherService {
 
     private static final OrderMatcherServiceImpl INSTANCE = new OrderMatcherServiceImpl();
 
-    public static OrderMatcherServiceImpl getINSTANCE() {
+    public static OrderMatcherServiceImpl getInstance() {
         return INSTANCE;
     }
 
