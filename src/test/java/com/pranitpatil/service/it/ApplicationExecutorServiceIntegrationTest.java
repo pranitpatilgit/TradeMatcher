@@ -25,6 +25,8 @@ public class ApplicationExecutorServiceIntegrationTest {
     @CsvSource({"orders1.csv,result1.txt", 
             "orders2.csv,result2.txt",
             "orders3.csv,result3.txt",
+            "orders4.csv,result4.txt",
+            "orders5.csv,result5.txt",
     })
     public void testScenario(String inputFileName, String outputfileName) throws URISyntaxException, IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
