@@ -8,7 +8,7 @@ public class NumberFormatter {
     /**
      * Format number to comma separated string in format 000,000,000 with padding.
      */
-    public static final String formatAmountToString(int number){
+    public static final String formatNumberToString(int number){
         StringBuilder builder = new StringBuilder();
         String numberString = NumberFormat.getNumberInstance(Locale.ENGLISH).format(number);
 

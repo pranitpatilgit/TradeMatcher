@@ -26,26 +26,6 @@ public class ConsoleIOService implements IOService {
     }
 
     @Override
-    public List<Order> getOrderInput(InputStream inputStream) {
-        Scanner scanner = new Scanner(inputStream);
-
-        List<Order> orders = new ArrayList<>();
-
-        try {
-            String line;
-            while (!(line = scanner.nextLine()).isEmpty()) {
-                orders.add(orderMapper.mapOrderFromCSV(line));
-            }
-        } catch (TradeMatcherException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new TradeMatcherException("Error occurred while taking order input.", e);
-        }
-
-        return orders;
-    }
-
-    @Override
     public Optional<Order> readOrder() {
         try {
             String line = scanner.nextLine();

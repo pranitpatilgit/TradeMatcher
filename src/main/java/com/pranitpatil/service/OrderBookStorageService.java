@@ -92,9 +92,9 @@ public class OrderBookStorageService implements OrderBookService {
             }
             else {
                 Order order = removeBuyOrder().get();
-                builder.append(NumberFormatter.formatAmountToString(order.price()));
+                builder.append(NumberFormatter.formatNumberToString(order.quantity()));
                 builder.append(PRINT_SEPARATOR);
-                builder.append(NumberFormatter.addPaddingToNumber(order.quantity()));
+                builder.append(NumberFormatter.addPaddingToNumber(order.price()));
             }
 
             builder.append(PRINT_DIVIDER);
@@ -104,9 +104,9 @@ public class OrderBookStorageService implements OrderBookService {
             }
             else {
                 Order order = removeSellOrder().get();
-                builder.append(NumberFormatter.formatAmountToString(order.price()));
+                builder.append(NumberFormatter.addPaddingToNumber(order.price()));
                 builder.append(PRINT_SEPARATOR);
-                builder.append(NumberFormatter.addPaddingToNumber(order.quantity()));
+                builder.append(NumberFormatter.formatNumberToString(order.quantity()));
             }
 
             builder.append("\n");

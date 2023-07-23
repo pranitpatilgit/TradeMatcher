@@ -10,11 +10,13 @@ public class ApplicationExecutorServiceImpl implements ApplicationExecutorServic
     private IOService ioService;
     private OrderBookService orderBookService;
     private OrderMatcherService orderMatcherService;
+    private TradeBookService tradeBookService;
 
     public ApplicationExecutorServiceImpl(InputStream inputStream) {
         ioService = new ConsoleIOService(inputStream);
         orderBookService = OrderBookStorageService.getInstance();
         orderMatcherService = OrderMatcherServiceImpl.getInstance();
+        tradeBookService = TradeBookStorageService.getInstance();
     }
 
     @Override
@@ -32,5 +34,12 @@ public class ApplicationExecutorServiceImpl implements ApplicationExecutorServic
         }
         
         ioService.getOrderBookOutput();
+        
+        //Optional : Print Trade book
+        boolean printTradeBookOutput = false;
+        if (printTradeBookOutput) {
+            System.out.println("--------TRADE BOOK--------");
+            System.out.println(tradeBookService.printTradeBook());
+        }
     }
 }

@@ -25,4 +25,14 @@ public class TradeBookStorageService implements TradeBookService {
         log.debug("Executed Trade {}", trade);
         return trade;
     }
+
+    @Override
+    public String printTradeBook() {
+        return tradeBook.getTrades()
+                .toString()
+                .replace("[", "")
+                .replace("],", "\n")
+                .replace("]", "")
+                .replace("Trade", "");
+    }
 }

@@ -11,10 +11,10 @@ public class NumberFormatterTest {
     
     @Test
     public void testFormatAmountToString(){
-        assertEquals("      1,000", NumberFormatter.formatAmountToString(1000));
-        assertEquals("         99", NumberFormatter.formatAmountToString(99));
-        assertEquals("123,456,789", NumberFormatter.formatAmountToString(123456789));
-        assertEquals(" 12,345,678", NumberFormatter.formatAmountToString(12345678));
+        assertEquals("      1,000", NumberFormatter.formatNumberToString(1000));
+        assertEquals("         99", NumberFormatter.formatNumberToString(99));
+        assertEquals("123,456,789", NumberFormatter.formatNumberToString(123456789));
+        assertEquals(" 12,345,678", NumberFormatter.formatNumberToString(12345678));
     }
     
     @Test
