@@ -2,9 +2,7 @@ package com.pranitpatil.service;
 
 import com.pranitpatil.dto.Trade;
 import com.pranitpatil.storage.TradeBook;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class TradeBookStorageService implements TradeBookService {
 
     private TradeBook tradeBook;
@@ -22,7 +20,6 @@ public class TradeBookStorageService implements TradeBookService {
     @Override
     public Trade executeTrade(Trade trade) {
         tradeBook.getTrades().add(trade);
-        log.debug("Executed Trade {}", trade);
         return trade;
     }
 
