@@ -3,6 +3,7 @@ package com.pranitpatil.service;
 import com.pranitpatil.dto.Order;
 import com.pranitpatil.dto.OrderType;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -18,6 +19,11 @@ public class OrderBookStorageServiceTest {
     @BeforeAll
     void init() {
         orderBookStorageService = orderBookStorageService.getInstance();
+    }
+    
+    @BeforeEach
+    void initTest(){
+        orderBookStorageService.resetOrderBook();
     }
 
     @Test
