@@ -2,11 +2,11 @@ package com.pranitpatil.service.it;
 
 import com.pranitpatil.service.ApplicationExecutorService;
 import com.pranitpatil.service.ApplicationExecutorServiceImpl;
-import org.junit.jupiter.api.Test;
+import com.pranitpatil.service.OrderBookStorageService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -20,9 +20,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ApplicationExecutorServiceIntegrationTest {
 
     private ApplicationExecutorService applicationExecutorService;
-    
+
+    @BeforeEach
+    public void initTest() {
+        OrderBookStorageService.getInstance().resetOrderBook();
+    }
+
     @ParameterizedTest
-    @CsvSource({"orders1.csv,result1.txt", 
+    @CsvSource({"orders1.csv,result1.txt",
             "orders2.csv,result2.txt",
             "orders3.csv,result3.txt",
             "orders4.csv,result4.txt",

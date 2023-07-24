@@ -1,11 +1,9 @@
 package com.pranitpatil.service;
 
-import com.pranitpatil.exception.TradeMatcherException;
 import com.pranitpatil.dto.Order;
+import com.pranitpatil.exception.TradeMatcherException;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -14,7 +12,7 @@ import java.util.Scanner;
  * Takes the input from command line
  */
 public class ConsoleIOService implements IOService {
-    
+
     private OrderBookService orderBookService;
     private Scanner scanner;
     private OrderMapper orderMapper;
@@ -31,8 +29,7 @@ public class ConsoleIOService implements IOService {
             String line = scanner.nextLine();
             if (!line.isEmpty()) {
                 return Optional.of(orderMapper.mapOrderFromCSV(line));
-            }
-            else {
+            } else {
                 return Optional.empty();
             }
         } catch (TradeMatcherException e) {

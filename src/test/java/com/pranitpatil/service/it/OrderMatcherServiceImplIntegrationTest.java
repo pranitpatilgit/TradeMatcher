@@ -25,25 +25,25 @@ public class OrderMatcherServiceImplIntegrationTest {
         orderMatcherService = OrderMatcherServiceImpl.getInstance();
         orderBookStorageService = OrderBookStorageService.getInstance();
     }
-    
+
     @BeforeEach
-    void reset(){
+    void reset() {
         orderBookStorageService.resetOrderBook();
     }
-    
+
     @Test
-    void test_whenForBuyOrderAndSellOrderExistsWithSameQuantity_thenBothOrdersAreExecutedAndRemoved(){
+    void test_whenForBuyOrderAndSellOrderExistsWithSameQuantity_thenBothOrdersAreExecutedAndRemoved() {
         orderBookStorageService.addSellOrder(new Order("1", OrderType.SELL, 100, 1000, LocalDateTime.now()));
         orderBookStorageService.addBuyOrder(new Order("2", OrderType.BUY, 101, 1000, LocalDateTime.now()));
-      
+
         orderMatcherService.matchOrder(orderBookStorageService.peekBuyOrder().get());
-        
+
         assertTrue(orderBookStorageService.peekBuyOrder().isEmpty());
         assertTrue(orderBookStorageService.peekSellOrder().isEmpty());
     }
 
     @Test
-    void test_whenForSellOrderAndSellOrderExistsWithSameQuantity_thenBothOrdersAreExecutedAndRemoved(){
+    void test_whenForSellOrderAndSellOrderExistsWithSameQuantity_thenBothOrdersAreExecutedAndRemoved() {
         orderBookStorageService.addSellOrder(new Order("1", OrderType.SELL, 100, 1000, LocalDateTime.now()));
         orderBookStorageService.addBuyOrder(new Order("2", OrderType.BUY, 101, 1000, LocalDateTime.now()));
 
@@ -54,7 +54,7 @@ public class OrderMatcherServiceImplIntegrationTest {
     }
 
     @Test
-    void test_whenForBuyOrderAndSellOrderExistsWithMoreQuantity_thenBuyOrderIsRemovedAndSellOrderIsModified(){
+    void test_whenForBuyOrderAndSellOrderExistsWithMoreQuantity_thenBuyOrderIsRemovedAndSellOrderIsModified() {
         orderBookStorageService.addSellOrder(new Order("1", OrderType.SELL, 100, 1100, LocalDateTime.now()));
         orderBookStorageService.addBuyOrder(new Order("2", OrderType.BUY, 101, 1000, LocalDateTime.now()));
 
@@ -65,7 +65,7 @@ public class OrderMatcherServiceImplIntegrationTest {
     }
 
     @Test
-    void test_whenForBuyOrderAndSellOrderExistsWithLessQuantity_thenSellOrderIsRemovedAndBuyOrderIsModified(){
+    void test_whenForBuyOrderAndSellOrderExistsWithLessQuantity_thenSellOrderIsRemovedAndBuyOrderIsModified() {
         orderBookStorageService.addSellOrder(new Order("1", OrderType.SELL, 100, 900, LocalDateTime.now()));
         orderBookStorageService.addBuyOrder(new Order("2", OrderType.BUY, 101, 1000, LocalDateTime.now()));
 
@@ -76,10 +76,10 @@ public class OrderMatcherServiceImplIntegrationTest {
     }
 
     @Test
-    void test_whenForSellOrderAndBuyOrderExistsWithLessQuantity_thenBuyOrderIsRemovedAndSellOrderIsModified(){
+    void test_whenForSellOrderAndBuyOrderExistsWithLessQuantity_thenBuyOrderIsRemovedAndSellOrderIsModified() {
         orderBookStorageService.addBuyOrder(new Order("1", OrderType.BUY, 101, 900, LocalDateTime.now()));
         orderBookStorageService.addSellOrder(new Order("2", OrderType.SELL, 100, 950, LocalDateTime.now()));
-        
+
         orderMatcherService.matchOrder(orderBookStorageService.peekSellOrder().get());
 
         assertTrue(orderBookStorageService.peekBuyOrder().isEmpty());
@@ -87,10 +87,10 @@ public class OrderMatcherServiceImplIntegrationTest {
     }
 
     @Test
-    void test_whenForSellOrderAndBuyOrderExistsWithMoreQuantity_thenSellOrderIsRemovedAndBuyOrderIsModified(){
+    void test_whenForSellOrderAndBuyOrderExistsWithMoreQuantity_thenSellOrderIsRemovedAndBuyOrderIsModified() {
         orderBookStorageService.addBuyOrder(new Order("1", OrderType.BUY, 101, 1000, LocalDateTime.now()));
         orderBookStorageService.addSellOrder(new Order("2", OrderType.SELL, 100, 950, LocalDateTime.now()));
-        
+
         orderMatcherService.matchOrder(orderBookStorageService.peekSellOrder().get());
 
         assertTrue(orderBookStorageService.peekSellOrder().isEmpty());
@@ -98,17 +98,17 @@ public class OrderMatcherServiceImplIntegrationTest {
     }
 
     @Test
-    void test_whenForSellOrderNoBuyOrdersExist_thenSellOrderRemainsTheSame(){
+    void test_whenForSellOrderNoBuyOrdersExist_thenSellOrderRemainsTheSame() {
         orderBookStorageService.addSellOrder(new Order("1", OrderType.SELL, 100, 950, LocalDateTime.now()));
 
         orderMatcherService.matchOrder(orderBookStorageService.peekSellOrder().get());
-        
+
         assertEquals(950, orderBookStorageService.peekSellOrder().get().quantity());
         assertEquals("1", orderBookStorageService.peekSellOrder().get().orderId());
     }
 
     @Test
-    void test_whenForSellOrderNoMatchingBuyOrdersExist_thenBothOrdersRemainTheSame(){
+    void test_whenForSellOrderNoMatchingBuyOrdersExist_thenBothOrdersRemainTheSame() {
         orderBookStorageService.addBuyOrder(new Order("1", OrderType.BUY, 99, 1000, LocalDateTime.now()));
         orderBookStorageService.addSellOrder(new Order("2", OrderType.SELL, 100, 950, LocalDateTime.now()));
 
@@ -121,7 +121,7 @@ public class OrderMatcherServiceImplIntegrationTest {
     }
 
     @Test
-    void test_whenForBuyOrderNoSellOrdersExist_thenBuyOrderRemainsTheSame(){
+    void test_whenForBuyOrderNoSellOrdersExist_thenBuyOrderRemainsTheSame() {
         orderBookStorageService.addBuyOrder(new Order("1", OrderType.BUY, 99, 1000, LocalDateTime.now()));
 
         orderMatcherService.matchOrder(orderBookStorageService.peekBuyOrder().get());
@@ -131,7 +131,7 @@ public class OrderMatcherServiceImplIntegrationTest {
     }
 
     @Test
-    void test_whenForBuyOrderNoMatchingSellOrdersExist_thenBothOrdersRemainTheSame(){
+    void test_whenForBuyOrderNoMatchingSellOrdersExist_thenBothOrdersRemainTheSame() {
         orderBookStorageService.addBuyOrder(new Order("1", OrderType.BUY, 99, 1000, LocalDateTime.now()));
         orderBookStorageService.addSellOrder(new Order("2", OrderType.SELL, 100, 950, LocalDateTime.now()));
 
@@ -144,7 +144,7 @@ public class OrderMatcherServiceImplIntegrationTest {
     }
 
     @Test
-    void test_whenForSellOrderThereAreMultipleSellOrdersWithCombinedMoreQuantity(){
+    void test_whenForSellOrderThereAreMultipleSellOrdersWithCombinedMoreQuantity() {
         orderBookStorageService.addBuyOrder(new Order("1", OrderType.BUY, 99, 1000, LocalDateTime.now()));
         orderBookStorageService.addBuyOrder(new Order("2", OrderType.BUY, 98, 1200, LocalDateTime.now()));
         orderBookStorageService.addBuyOrder(new Order("3", OrderType.BUY, 99, 500, LocalDateTime.now()));
@@ -159,9 +159,9 @@ public class OrderMatcherServiceImplIntegrationTest {
         assertEquals(700, orderBookStorageService.peekBuyOrder().get().quantity());
         assertEquals("2", orderBookStorageService.peekBuyOrder().get().orderId());
     }
-    
+
     @Test
-    void test_whenForBuyOrderThereAreMultipleSellOrdersWithCombinedMoreQuantity(){
+    void test_whenForBuyOrderThereAreMultipleSellOrdersWithCombinedMoreQuantity() {
         orderBookStorageService.addSellOrder(new Order("1", OrderType.SELL, 99, 1000, LocalDateTime.now()));
         orderBookStorageService.addSellOrder(new Order("2", OrderType.SELL, 98, 1200, LocalDateTime.now()));
         orderBookStorageService.addSellOrder(new Order("3", OrderType.SELL, 99, 500, LocalDateTime.now()));

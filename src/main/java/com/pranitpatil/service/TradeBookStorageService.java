@@ -6,9 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class TradeBookStorageService implements TradeBookService {
-    
+
     private TradeBook tradeBook;
-    
+
     private static final TradeBookStorageService INSTANCE = new TradeBookStorageService();
 
     public static TradeBookStorageService getInstance() {
@@ -31,7 +31,7 @@ public class TradeBookStorageService implements TradeBookService {
         return tradeBook.getTrades()
                 .toString()
                 .replace("[", "")
-                .replace("],", "\n")
+                .replace("], ", "\n")
                 .replace("]", "")
                 .replace("Trade", "");
     }

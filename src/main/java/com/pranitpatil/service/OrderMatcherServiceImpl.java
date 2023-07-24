@@ -25,22 +25,20 @@ public class OrderMatcherServiceImpl implements OrderMatcherService {
     @Override
     public void matchOrder(Order order) {
         boolean isTradeExecuted = false;
-        
+
         if (OrderType.BUY.equals(order.orderType())) {
             isTradeExecuted = checkBuyOrder(order);
-        }
-        else if (OrderType.SELL.equals(order.orderType())) {
+        } else if (OrderType.SELL.equals(order.orderType())) {
             isTradeExecuted = checkSellOrder(order);
         }
 
         //Check for remaining orders until nothing matches
-        while (isTradeExecuted){
+        while (isTradeExecuted) {
             isTradeExecuted = false;
-            
-            if (orderBookService.peekBuyOrder().isPresent()){
+
+            if (orderBookService.peekBuyOrder().isPresent()) {
                 isTradeExecuted = checkBuyOrder(orderBookService.peekBuyOrder().get());
-            }
-            else if (orderBookService.peekSellOrder().isPresent()){
+            } else if (orderBookService.peekSellOrder().isPresent()) {
                 isTradeExecuted = checkSellOrder(orderBookService.peekSellOrder().get());
             }
         }

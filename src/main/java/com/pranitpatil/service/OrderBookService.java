@@ -5,8 +5,9 @@ import com.pranitpatil.dto.Order;
 import java.util.Optional;
 
 public interface OrderBookService {
-    
+
     Order addBuyOrder(Order order);
+
     Order addSellOrder(Order order);
 
     /**
@@ -22,9 +23,9 @@ public interface OrderBookService {
     Optional<Order> removeBuyOrder();
 
     Optional<Order> removeSellOrder();
-    
+
     Order modifyFirstBuyOrder(Order order);
-    
+
     Order modifyFirstSellOrder(Order order);
 
     /**
@@ -35,6 +36,7 @@ public interface OrderBookService {
 
     /**
      * Returns the string representation of order book.
+     *
      * @return
      */
     String printOrderBook();

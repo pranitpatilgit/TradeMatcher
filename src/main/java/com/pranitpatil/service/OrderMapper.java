@@ -7,7 +7,7 @@ import com.pranitpatil.exception.TradeMatcherException;
 import java.time.LocalDateTime;
 
 public class OrderMapper {
-    
+
     private static OrderMapper INSTANCE = new OrderMapper();
     private static String SEPARATOR = ",";
 
@@ -18,7 +18,7 @@ public class OrderMapper {
         return INSTANCE;
     }
 
-    public Order mapOrderFromCSV(String line){
+    public Order mapOrderFromCSV(String line) {
         String[] tokens = line.split(SEPARATOR);
 
         try {

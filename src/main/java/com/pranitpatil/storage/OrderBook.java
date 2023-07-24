@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 
 @Getter
 public class OrderBook {
-    
+
     private PriorityQueue<Order> buyQueue;
     private PriorityQueue<Order> sellQueue;
 

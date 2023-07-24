@@ -7,13 +7,13 @@ import com.pranitpatil.util.NumberFormatter;
 import java.util.Optional;
 
 public class OrderBookStorageService implements OrderBookService {
-    
+
     private OrderBook orderBook;
     private static final OrderBookStorageService INSTANCE = new OrderBookStorageService();
     private static final String PRINT_SEPARATOR = " ";
     private static final String PRINT_PADDING = "                  ";
     private static final String PRINT_DIVIDER = " | ";
-    
+
     private OrderBookStorageService() {
         this.orderBook = new OrderBook();
     }
@@ -36,8 +36,8 @@ public class OrderBookStorageService implements OrderBookService {
 
     @Override
     public Optional<Order> peekBuyOrder() {
-        return orderBook.getBuyQueue().isEmpty() 
-                ? Optional.empty() 
+        return orderBook.getBuyQueue().isEmpty()
+                ? Optional.empty()
                 : Optional.of(orderBook.getBuyQueue().peek());
     }
 
@@ -81,16 +81,15 @@ public class OrderBookStorageService implements OrderBookService {
         orderBook.getBuyQueue().clear();
         orderBook.getSellQueue().clear();
     }
-    
+
     @Override
     public String printOrderBook() {
         StringBuilder builder = new StringBuilder();
-        
-        while (!orderBook.getBuyQueue().isEmpty() || !orderBook.getSellQueue().isEmpty()){
-            if (orderBook.getBuyQueue().isEmpty()){
+
+        while (!orderBook.getBuyQueue().isEmpty() || !orderBook.getSellQueue().isEmpty()) {
+            if (orderBook.getBuyQueue().isEmpty()) {
                 builder.append(PRINT_PADDING);
-            }
-            else {
+            } else {
                 Order order = removeBuyOrder().get();
                 builder.append(NumberFormatter.formatNumberToString(order.quantity()));
                 builder.append(PRINT_SEPARATOR);
@@ -99,10 +98,9 @@ public class OrderBookStorageService implements OrderBookService {
 
             builder.append(PRINT_DIVIDER);
 
-            if (orderBook.getSellQueue().isEmpty()){
+            if (orderBook.getSellQueue().isEmpty()) {
                 builder.append(PRINT_PADDING);
-            }
-            else {
+            } else {
                 Order order = removeSellOrder().get();
                 builder.append(NumberFormatter.addPaddingToNumber(order.price()));
                 builder.append(PRINT_SEPARATOR);
@@ -111,7 +109,7 @@ public class OrderBookStorageService implements OrderBookService {
 
             builder.append("\n");
         }
-        
+
         return builder.toString();
     }
 }

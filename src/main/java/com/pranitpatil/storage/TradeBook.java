@@ -9,5 +9,5 @@ import java.util.List;
 @Getter
 public class TradeBook {
     private final List<Trade> trades = new ArrayList<>();
-    
+
 }
