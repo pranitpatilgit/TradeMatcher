@@ -39,6 +39,12 @@ This would build the project and run all the tests along with it.
 - Current implementation stores the data in memory.
 - This can be switched to a persistent storage.
 
+### Testing
+- There a multiple Integration and unit tests already present which can be utilized to test ant changes in the code.
+- Complete Application can be tested using [ApplicationExecutorServiceIntegrationTest.java](src/test/java/com/pranitpatil/service/it/ApplicationExecutorServiceIntegrationTest.java)
+  - Its needs 2 files Input - orders<IDENTIFIER>.csv and Output result<IDENTIFIER>.txt
+  - Various scenarios can be tested by creating sucj input-output combinations and adding it in the CsvSource section of the test.
+
 ### Changing console to API 
 - The code is extensible to switch from console based to another way.
 
