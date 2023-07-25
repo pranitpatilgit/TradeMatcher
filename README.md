@@ -21,6 +21,12 @@ This would build the project and run all the tests along with it.
         java -jar target/TradeMatcher-1.0-SNAPSHOT.jar
 
 ### How to provide input
+- Start the application and enter the order details one by one in "order-id, side, price, quantity" Format.
+- Enter all the orders one by one.
+- Leave the last line blank once all the orders are entered.
+- Application performs the matching for every order entered and decides if the trade is to be executed.
+- The application maintains order book and trade book.
+- After the last order the applications prints the order book, we can change to code to print the trade book as well.
 
 ## Extensibility
 ### Providing input and output in different ways
