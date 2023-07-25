@@ -1,2 +1,2 @@
-Please enter all orders separated by comma, leave the line blank once done.
+Please enter all orders separated in "order-id, side, price, quantity" Format, leave the line blank once done.
         700     98 |    101       2,000

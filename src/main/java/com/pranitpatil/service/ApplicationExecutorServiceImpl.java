@@ -21,7 +21,7 @@ public class ApplicationExecutorServiceImpl implements ApplicationExecutorServic
 
     @Override
     public void startApplication() {
-        System.out.println("Please enter all orders separated by comma, leave the line blank once done.");
+        System.out.println("Please enter all orders separated in \"order-id, side, price, quantity\" Format, leave the line blank once done.");
         Optional<Order> order;
         while ((order = ioService.readOrder()).isPresent()) {
 
